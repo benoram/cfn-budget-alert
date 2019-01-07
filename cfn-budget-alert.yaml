@@ -36,11 +36,11 @@ Resources:
             Threshold: !Ref Threshold1
           Subscribers:
           - SubscriptionType: EMAIL
-            Address: NotificationEmailAddress
+            Address: !Ref NotificationEmailAddress
         - Notification:
             NotificationType: ACTUAL
             ComparisonOperator: GREATER_THAN
             Threshold: !Ref Threshold2
           Subscribers:
           - SubscriptionType: EMAIL
-            Address: NotificationEmailAddress
+            Address: !Ref NotificationEmailAddress
