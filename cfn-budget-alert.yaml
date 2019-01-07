@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: Create a budget alert to notify when costs go out of spec - https://github.com/oramco/cfn-budget-alert.git
+
+Parameters:
+  
+  NotificationEmailAddress:
+    Type: String
+    Description: The email address to send notifications to
+
+  Threshold1:
+    Type: Number
+    Description: The $ amount to send the first email alert at
+    Default: 15
+
+  Threshold2:
+    Type: Number
+    Description: The $ amount to send the second email alert at
+    Default: 20
+
+Resources:
+  
+  BudgetExample:
+    Type: "AWS::Budgets::Budget"
+    Properties:
+      Budget:
+        BudgetLimit:
+          Amount: !Ref Threshold2
+          Unit: USD
+        TimeUnit: MONTHLY       
+        BudgetType: COST
+      NotificationsWithSubscribers:
+        - Notification:
+            NotificationType: ACTUAL
+            ComparisonOperator: GREATER_THAN
+            Threshold: !Ref Threshold1
+          Subscribers:
+          - SubscriptionType: EMAIL
+            Address: NotificationEmailAddress
+        - Notification:
+            NotificationType: ACTUAL
+            ComparisonOperator: GREATER_THAN
+            Threshold: !Ref Threshold2
+          Subscribers:
+          - SubscriptionType: EMAIL
+            Address: NotificationEmailAddress
